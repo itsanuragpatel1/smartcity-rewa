@@ -2,10 +2,14 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-// Ensure uploads/temp exists
-const tempDir = path.join(process.cwd(), 'uploads', 'temp');
-if (!fs.existsSync(tempDir)) {
-  fs.mkdirSync(tempDir, { recursive: true });
+// Ensure uploads/temp exists (use /tmp on Vercel serverless)
+const tempDir = process.env.VERCEL ? '/tmp' : path.join(process.cwd(), 'uploads', 'temp');
+try {
+  if (!fs.existsSync(tempDir)) {
+    fs.mkdirSync(tempDir, { recursive: true });
+  }
+} catch {
+  // Directory might already exist or read-only
 }
 
 const storage = multer.diskStorage({
