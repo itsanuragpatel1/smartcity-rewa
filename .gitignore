@@ -19,6 +19,7 @@ build/
 .next/
 out/
 coverage/
+Docs/
 
 # ----------------------
 # Env files
